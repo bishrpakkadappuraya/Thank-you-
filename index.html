@@ -326,29 +326,29 @@
             <div class="success-icon">
                 <i class="fas fa-check"></i>
             </div>
-            
+
             <h1 class="thank-you-title">Thank You!</h1>
-            
+
             <p class="thank-you-subtitle">
-                Your submission has been received successfully. We appreciate your time and will get back to you shortly. 
+                Your submission has been received successfully. We appreciate your time and will get back to you shortly.
                 Our team is already working on your request and you can expect to hear from us within 24 hours.
             </p>
-            
+
             <div class="action-buttons">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <button class="btn btn-primary-custom w-100" onclick="goHome()">
+                        <button class="btn btn-primary-custom w-100" id="homeButton">
                             <i class="fas fa-home me-2"></i>Back to Home
                         </button>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-outline-custom w-100" onclick="shareExperience()">
+                        <button class="btn btn-outline-custom w-100" id="shareButton">
                             <i class="fas fa-share-alt me-2"></i>Share Experience
                         </button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="social-proof">
                 <p class="social-proof-text">Stay connected with us</p>
                 <div class="social-icons">
@@ -371,28 +371,43 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Function to go home
         function goHome() {
-            // Add your home page URL here
-            window.location.href = '/';
+            window.location.href = 'https://bishrpakkadappuraya.github.io/village/';
         }
 
+        // Function to share experience
         function shareExperience() {
             if (navigator.share) {
                 navigator.share({
                     title: 'Great Experience!',
                     text: 'I just had an amazing experience with this service.',
                     url: window.location.href,
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                    fallbackShare();
                 });
             } else {
-                // Fallback for browsers that don't support Web Share API
-                const url = encodeURIComponent(window.location.href);
-                const text = encodeURIComponent('I just had an amazing experience with this service!');
-                window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+                fallbackShare();
             }
         }
 
-        // Add some interactive sparkle effects
+        // Fallback share function
+        function fallbackShare() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('I just had an amazing experience with this service!');
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+
+        // Add event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Home button
+            document.getElementById('homeButton').addEventListener('click', goHome);
+            
+            // Share button
+            document.getElementById('shareButton').addEventListener('click', shareExperience);
+            
+            // Ripple effect
             const card = document.querySelector('.thank-you-card');
             
             card.addEventListener('mousemove', function(e) {
